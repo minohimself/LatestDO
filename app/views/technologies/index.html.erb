@@ -1,0 +1,101 @@
+
+     
+
+  
+
+<!-- !!!!!!!!! POČÁTEK - OBLAST ZMĚNY  V KÓDU PRO TUTO STRÁNKU !!!!! -->
+
+            
+
+    <table class="tab0">
+
+  <tr>  <td>
+
+      <link<a href="index.htm" title="Home">⌂</a>  
+
+      <a>Výzkum a ekonomika</a> » 
+        <%= link_to "Ekonomický výzkum", technologies_path %>
+
+      
+
+    </td>
+
+  </tr>
+
+  </table>
+
+  
+
+  
+
+  <table class="vyzkum" style="background-image: url(image/8/mes.png")>
+
+  
+
+  
+
+    
+
+    
+
+    
+
+      <!-- !!!!! pozor! 
+
+      
+
+      nevyzkoumane bunky maji jen td, vyzkoumane maji tr class="v1" 
+
+      
+
+      u bunek, ktere zobrazuji i budovu je to slozitejsi, jsou rozliseny 0 a 1
+
+      napr: nevyzkoumane mesto :  /mes_0.png
+
+        vyzkoumane mesto:   /mes_1.png
+
+
+      
+      !!!!! -->
+      <% if !@technologies.blank? %>
+<%= render :partial => "technology", :collection => @technologies, :as => :technology%>
+      <% else %>
+              Halooooo
+            <% end %>
+
+      
+    
+        
+        
+         
+         
+        
+        
+        
+
+      
+        
+      
+
+
+    
+
+     
+
+  
+
+  
+
+  </table>
+
+  
+
+  
+
+  
+
+<!-- !!!!!!!!! KONEC - OBLAST ZMĚNY  V KÓDU PRO TUTO STRÁNKU !!!!! -->
+
+
+
+  
