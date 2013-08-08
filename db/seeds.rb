@@ -148,8 +148,6 @@ Technology.create(:name => "Obraná technologie", :discovered => 0, :description
 #Technology.create(:name => "Rychlopalné zbraně", :description => "+2% HP vesmírnych jednotek", :price => 300, :max_lvl => 8, :bonus => 0.02, :bonus_type => "VO", :image_url => "image/imghra/v040.png")
 #Technology.create(:name => "Obraná technika flotily", :description => "+2% HP vesmírnych jednotek", :price => 300, :max_lvl => 10, :bonus => 0.02, :bonus_type => "VO", :image_url => "image/imghra/v040.png")
 
-
-
 puts 'Technology done'
 
 norma.napln_suroviny

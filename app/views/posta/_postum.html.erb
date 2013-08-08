@@ -1,0 +1,11 @@
+<tr>
+  <td><%= postum.created_at %></td>
+  <% odosielatelId = postum.recipients.first.user_id%>
+  <% odosielatel = User.find(odosielatelId) %>
+  <td><%=link_to postum.zistiMenoOdosielatela(odosielatelId), odosielatel %></td>
+  <td><%= odosielatel.house.name %></td>
+  <td><%= link_to postum.subject, postum_path(postum)%>
+  <span class="fright">
+  <%= link_to image_tag('../assets/css/DO_cross.png'), postum, :confirm => "are you sure?", :method => :delete, :class => 'delete_post', :remote => true %></span></td>
+
+</tr>

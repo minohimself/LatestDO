@@ -24,12 +24,11 @@ module ApplicationHelper
     end
   end
 
-
   def format_mena(castka, mena="", des_cisla=true)
     if des_cisla
-      text=number_to_currency(castka, {:unit => mena, :locale => :cs, :precision => 2, :format => "%n %u"})
+      text=number_to_currency(castka, {:unit => mena, :locale => :cs, :format => "%n %u"})
     else
-      text=number_to_currency(castka, {:unit => mena, :locale => :cs, :precision => 2, :format => "%n %u"}).gsub!('.00', '')
+      text=number_to_currency(castka, {:unit => mena, :locale => :cs, :format => "%n %u"}).gsub!('.00', '')
     end
     text
   end
@@ -99,14 +98,11 @@ module ApplicationHelper
     image_tag("planety/arrakis_arraken.png",  :alt => title, :title => title)
   end
 
-
-
-
   def online_users
     @online_users = []
     sessions = Session.order("created_at ASC").all
     sessions.each do |session|
-      user = Marshal.load(ActiveSupport::Base64.decode64(session.data))["user_id"]
+      user = Marshal.load(Base64.decode64(session.data))["user_id"]
       if user
         @online_users << User.find(user)
       end
@@ -158,12 +154,6 @@ module ApplicationHelper
 
   def cesta_ikona(ikona)
     cesta = "css/" + ikona + ".png"
-  end
-
-  
-
-  def obrazek_technologie(technology, typ)
-    image_tag(cesta_technologie(technology, typ))
   end
 
   def trida_barvy(cislo)

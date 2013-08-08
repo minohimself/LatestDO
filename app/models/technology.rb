@@ -5,6 +5,7 @@ class Technology < ActiveRecord::Base
   has_many :users, :through => :researches
   has_one :effect
 
+
   validates_uniqueness_of :name
 
   def cena_technology(user)
@@ -19,18 +20,16 @@ class Technology < ActiveRecord::Base
   def vylepsi(user)
      research = self.researches.where(:user_id => user.id).first
      if research
-     research.update_attribute(:lvl, research.lvl+1)
+	     research.update_attribute(:lvl, research.lvl+1)
 
-   else
-     Research.new(
-       :technology_id => self.id,
-       :lvl => 1 ,
-       :user_id => user.id
-     ).save
-   end
-   
-
- end
+     else
+	     Research.new(
+			     :technology_id => self.id,
+			     :lvl => 1 ,
+			     :user_id => user.id
+	     ).save
+     end
+  end
 
 
 
@@ -43,22 +42,18 @@ class Technology < ActiveRecord::Base
     end
   end
 
-  def vynalezene?(user)
-    research = self.researches.where(:user_id => user).exists?
-      return true
-    else
-      return false
-    end
-  end
-
+<<<<<<< HEAD
   public
+=======
+   public
+>>>>>>> Ready to be tested
   def levely
     if self.image_lvl
     levely = self.image_lvl.split('*').map(&:to_i)
     end
     return levely
   end
-
+public
 def cesta_technologie(typ)
     cesta = "technologie/"
     case self.id
@@ -89,6 +84,9 @@ def cesta_technologie(typ)
   
   end
 
-  public :cesta_technologie
+<<<<<<< HEAD
+end
 
-
+=======
+	end
+>>>>>>> Ready to be tested

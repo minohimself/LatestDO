@@ -57,14 +57,17 @@ class User < ActiveRecord::Base
 
   has_many :operations
 
-  has_many :researches
-  has_many :technologies, :through => :researches
-  
+  has_many :conversations
+  has_many :postums, :through => :conversations
+
   has_many :eods
 
   has_many :polls
   has_many :laws, :through => :polls
-
+  
+  has_many :researches
+  has_many :technologies, :through => :researches
+  
   validates :username, :presence => true, :uniqueness => true
   validates :password, :presence => true, :on => :create
   validates_confirmation_of :password
@@ -184,10 +187,6 @@ class User < ActiveRecord::Base
     plt_id.sort!
   end
 
-  def to_i
-    self.id
-  end
-
   def dovolene_budovy(kind)
     # TODO dovolene budovy podle tech levelu
     Building.where(:kind => kind, :level => [1]).all
@@ -201,11 +200,6 @@ class User < ActiveRecord::Base
   def prestat_byt(cim)  # cim = presne nazev attributu
     #self.zapis_operaci("Uz dale nejsem #{cim}.")
     self.update_attribute(cim, false)
-  end
-
-
-  def zobraz_vyskum
-    self.technologies.includes(:researches).order(:name) 
   end
 
   def melange_bonus
@@ -247,15 +241,15 @@ class User < ActiveRecord::Base
   def domovske_leno
     self.fields.where(:planet_id => Planet.domovska_rodu(self.house)).first
   end
-  def vyskumane_tech(id)
+  
+ def vyskumane_tech(id)
         vyskumane_tech =  self.researches.where('technology_id' => id).first
         if vyskumane_tech
           return vyskumane_tech.lvl
         else
-          return 1
+          return 0
         end
   end
-
 
   def politicke_postaveni
     # Imperátor > Mistodržící > Regent > Vůdce > Poslanec > Mentat > Vojenský mentat > Diplomat > Guvernér

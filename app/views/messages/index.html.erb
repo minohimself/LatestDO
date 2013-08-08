@@ -1,0 +1,49 @@
+<table class="tab0">
+  <tr>
+    <td class="drob">
+      <a href="index.htm" title="Home">⌂</a>
+      » <a href="kom-soukroma.htm">Přijaté zprávy</a>
+
+    </td>
+
+    <td class="tdd">
+      <ul class="menud">
+        <li><a title="Filtrováním přenastavíte zobrazená data.">Filtrovat druh »</a>
+          <ul>
+            <li><%= link_to "Soukromá zpráva", messages_path(:type => 'Dorucena')%>
+            <li><%= link_to "Malorodní", messages_path(:type => 'Malorodni')%>
+            <li><%= link_to "Generálům", messages_path(:type => 'Generalum')%>
+            <li><%= link_to "Národní", messages_path(:type => 'Narodni')%>
+            <li><%= link_to "Diplomatická", messages_path(:type => 'Diplomaticka')%>
+            <li><%= link_to "Imperiální", messages_path(:type => 'Imperialni')%>
+          </ul>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<table class="tab1">
+  <tr>
+    <th class="l">Čas</th>
+    <th>Odesilatel</th>
+    <th>Národ</th>
+    <th class="r" style="width:240px">Předmět</th>
+  </tr>
+
+
+
+
+
+
+  <%= render :partial => "message", :collection => @messages || "Nemate ziadnu prijatu postu" %>
+  <tr id="novaposta">
+
+
+</table>
+
+<br />
+
+
+
+

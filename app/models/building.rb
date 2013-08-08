@@ -32,14 +32,13 @@ class Building < ActiveRecord::Base
   
   has_many :fields, :through => :estates
   has_many :estates
-
-
+  
   def naklady_stavba_solary
-    (self.sum_bonus * self.solar_cost * Constant.ksv).to_f
+    self.sum_bonus * self.solar_cost * Constant.ksv
   end
   
   def naklady_stavba_material
-   (self.sum_bonus * self.material_cost * Constant.kmav).to_f
+    self.sum_bonus * self.material_cost * Constant.kmav
   end
   
   def naklady_stavba_populace
@@ -53,15 +52,12 @@ class Building < ActiveRecord::Base
   def vynos_population
     self.population_bonus * Constant.kvynosp * Constant.kpp
   end
-  
   def vynos_solar
     self.solar_bonus * Constant.kvynoss * Constant.ksp
   end
- 
   def vynos_material
     self.material_bonus * Constant.kvynosma * Constant.kmap
   end
- 
   def vynos_exp
     self.exp_bonus * Constant.kvynose * Constant.kep
   end

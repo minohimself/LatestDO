@@ -1,19 +1,7 @@
 DuneOnline::Application.routes.draw do
-  mount Messaging::Engine => "/messaging"
+  resources :messages
 
-  devise_for :messaging_users
-
-  resources :researches
-
-
-  resources :technologies
-  match 'vylepsi_technology' => 'technologies#vylepsi_technology', :as => :vylepsi_technology
-
-  get "research/index"
-
-  get "research/show"
-
-  resources :posts
+	resources :posts
 
   resources :topics
 
@@ -28,6 +16,9 @@ DuneOnline::Application.routes.draw do
 
   resources :eods
   match 'zobraz_eod' => 'eods#zobraz_eod', :as => :zobraz_eod
+  
+  resources :technologies
+  match 'vylepsi_technology' => 'technologies#vylepsi_technology', :as => :vylepsi_technology
 
   resources :systems
 

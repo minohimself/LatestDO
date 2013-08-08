@@ -11,8 +11,8 @@ class FieldsController < ApplicationController
   def show
     @field = Field.find(params[:id])
     @owner = @field.user
-    lvl = current_user.researches.where('technology_id' => 1).first
-    @bonus = (1 - (lvl.lvl * 0.02)).to_f
+    lvl = current_user.vyskumane_tech(1)
+    @bonus = (1 - (lvl * 0.02)).to_f
     if current_user.admin?
       
     else
@@ -45,7 +45,7 @@ class FieldsController < ApplicationController
     @field = Field.find(params[:id])
   end
 
-  respond_to :html, :json
+  respond_to :html, :json 
   def update
     #@field = Field.find(params[:id])
     #if @field.update_attributes(params[:field])

@@ -1,12 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 gem 'rake', '=0.9.2.2'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+#gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 #gem 'mysql'
 
 # Gems used only for assets and not required
@@ -20,7 +21,7 @@ end
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
- gem 'bcrypt-ruby', :require => "bcrypt"
+gem 'bcrypt-ruby', :require => "bcrypt"
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -62,6 +63,3 @@ gem 'randumb'
 group :development do
   gem 'meta_request', '0.2.0'
 end
-
-gem 'messaging', git: 'git://github.com/frodefi/rails-messaging.git'
-gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 38) do
+ActiveRecord::Schema.define(:version => 33) do
 
   create_table "app_logy", :force => true do |t|
     t.datetime "cas",                      :null => false
@@ -54,9 +54,12 @@ ActiveRecord::Schema.define(:version => 38) do
   add_index "buildings", ["name"], :name => "index_buildings_on_name"
 
   create_table "conversations", :force => true do |t|
-    t.string   "subject",    :default => ""
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.integer  "sender"
+    t.integer  "message_id"
+    t.integer  "recipient"
+    t.string   "deleted_by"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "discoverables", :force => true do |t|
@@ -92,7 +95,7 @@ ActiveRecord::Schema.define(:version => 38) do
   create_table "environments", :force => true do |t|
     t.integer  "planet_id",                             :null => false
     t.integer  "property_id",                           :null => false
-    t.date     "started_at",  :default => '2013-06-07'
+    t.date     "started_at",  :default => '2013-07-24'
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
   end
@@ -104,8 +107,8 @@ ActiveRecord::Schema.define(:version => 38) do
   create_table "eods", :force => true do |t|
     t.integer  "user_id",                                                                              :null => false
     t.integer  "field_id"
-    t.date     "date",                                              :default => '2013-06-07',          :null => false
-    t.time     "time",                                              :default => '2000-01-01 20:27:20', :null => false
+    t.date     "date",                                              :default => '2013-07-24',          :null => false
+    t.time     "time",                                              :default => '2000-01-01 15:44:07', :null => false
     t.integer  "order",                                                                                :null => false
     t.integer  "solar_income",                                      :default => 0
     t.integer  "exp_income",                                        :default => 0
@@ -183,7 +186,7 @@ ActiveRecord::Schema.define(:version => 38) do
   create_table "influences", :force => true do |t|
     t.integer  "effect_id",                            :null => false
     t.integer  "field_id",                             :null => false
-    t.date     "started_at", :default => '2013-06-07'
+    t.date     "started_at", :default => '2013-07-24'
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
   end
@@ -206,43 +209,16 @@ ActiveRecord::Schema.define(:version => 38) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "messaging_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+  create_table "messages", :force => true do |t|
+    t.string   "body"
+    t.string   "subject"
+    t.string   "recipients"
+    t.string   "conversations"
+    t.string   "druh"
+    t.boolean  "read"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
-
-  add_index "messaging_users", ["email"], :name => "index_messaging_users_on_email", :unique => true
-  add_index "messaging_users", ["reset_password_token"], :name => "index_messaging_users_on_reset_password_token", :unique => true
-
-  create_table "notifications", :force => true do |t|
-    t.string   "type"
-    t.text     "body"
-    t.string   "subject",              :default => ""
-    t.integer  "sender_id"
-    t.string   "sender_type"
-    t.integer  "conversation_id"
-    t.boolean  "draft",                :default => false
-    t.datetime "updated_at",                              :null => false
-    t.datetime "created_at",                              :null => false
-    t.integer  "notified_object_id"
-    t.string   "notified_object_type"
-    t.string   "notification_code"
-    t.string   "attachment"
-    t.boolean  "global",               :default => false
-    t.datetime "expires"
-  end
-
-  add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
 
   create_table "operations", :force => true do |t|
     t.integer  "user_id"
@@ -250,8 +226,8 @@ ActiveRecord::Schema.define(:version => 38) do
     t.integer  "subhouse_id"
     t.string   "kind"
     t.string   "content"
-    t.date     "date",        :default => '2013-06-07'
-    t.time     "time",        :default => '2000-01-01 20:27:20'
+    t.date     "date",        :default => '2013-07-24'
+    t.time     "time",        :default => '2000-01-01 15:44:07'
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end
@@ -278,7 +254,7 @@ ActiveRecord::Schema.define(:version => 38) do
     t.string   "system_name"
     t.integer  "position"
     t.boolean  "available_to_all", :default => false
-    t.date     "discovered_at",    :default => '2013-06-07'
+    t.date     "discovered_at",    :default => '2013-07-24'
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
   end
@@ -322,20 +298,6 @@ ActiveRecord::Schema.define(:version => 38) do
   end
 
   add_index "properties", ["name"], :name => "index_properties_on_name"
-
-  create_table "receipts", :force => true do |t|
-    t.integer  "receiver_id"
-    t.string   "receiver_type"
-    t.integer  "notification_id",                                  :null => false
-    t.boolean  "is_read",                       :default => false
-    t.boolean  "trashed",                       :default => false
-    t.boolean  "deleted",                       :default => false
-    t.string   "mailbox_type",    :limit => 25
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
-  end
-
-  add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
 
   create_table "researches", :force => true do |t|
     t.integer  "lvl"

@@ -2,12 +2,29 @@ class TechnologiesController < ApplicationController
   # GET /technologies
   # GET /technologies.json
   def index
-    @technologies = Technology.includes(:researches).where('discovered' => 1)
+    @technologies = Technology.includes(:researches).where(:discovered => 1)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @technologies }
+    case params[:kind]
+	    when 'L'
+		    @syselaads = Syselaad.landsraadsky
+	    when 'N'
+		    @syselaads = Syselaad.narodni.where(:house_id => rod)
+	    when 'I'
+		    @syselaads = Syselaad.imperialni
+	    when 'S'
+		    @syselaads = Syselaad.systemovy
+	    when 'E'
+		    @syselaads = Syselaad.mezinarodni
+	    else
+		    @syselaads = Syselaad.narodni.where(:house_id => rod)
     end
+
+
+    #respond_to do |format|
+    #  format.html # index.html.erb
+    #  format.json { render json: @technologies }
+	   # #format.js
+    #end
   end
 
   # GET /technologies/1
@@ -45,58 +62,43 @@ class TechnologiesController < ApplicationController
     cena_tech = @technology.cena_technology(current_user)
     if @technology.vylepseno(current_user) == @technology.max_lvl
       flash[:error] = "Vyzkum na nejvissi urovni"
-      redirect_to :action => 'index'
+      redirect_to :action => 'index', :layout=>false
+      #flash.now[:notice] = 'Your message'
+      #respond_to do |format|
+
+	     # format.html { redirect_to(index, notice: 'Vyskum na najvyssej urovni.') }
+	     # format.json { render json: @technology }
+	     # #format.js
+      #
+      #end
     else
       if cena_tech > current_user.exp
         flash[:error] = "Nedostatok zkusenosti pro vynalezeni, potreba #{(cena_tech - current_user.exp).round(0)} exp."
-        redirect_to :action => 'index'
+        redirect_to :action => 'index', :layout=>false
+	      #flash.now[:notice] = "Your message"
+        #respond_to do |format|
+	       # format.html { redirect_to(index, :notice => 'Malo exp.') }
+	       # format.json { render json: @technology }
+	       # format.js
+        #
+        #end
       else
         @technology.vylepsi(current_user)
         current_user.update_attributes(:exp => (current_user.exp - cena_tech))
         flash[:notice] = "Vyzkum byl vynalezen ."
-        redirect_to :action => 'index'
+        redirect_to :action => 'index', :layout=>false
+        #, :notice => 'Technology created.'
+       # respond_to do |format|
+	      #  format.html { redirect_to(index) }
+	      #  format.json { render json: @technology }
+	      #  format.js
+       #end
+
       end
     end
-  end
-  
 
-  # POST /technologies
-  # POST /technologies.json
-  def create
-    @technology = Technology.find(params[:technology])
-    
-
-
-    respond_to do |format|
-      if @technology.save
-        format.html { redirect_to @technology, notice: 'Technology was successfully created.' }
-        format.json { render json: @technology, status: :created, location: @technology }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @technology.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
-  # PUT /technologies/1
-  # PUT /technologies/1.json
-  
-
-  def update
-    @technology = Technology.find(params[:id])
-    
-    #respond_with @technology
-    respond_to do |format|
-      if @technology.update_attributes(params[:technology])
-        format.html { redirect_to @technology, notice: 'Research was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @technology.errors, status: :unprocessable_entity }
-      end
-    end
-    
-  end
 
   # DELETE /technologies/1
   # DELETE /technologies/1.json

@@ -11,7 +11,7 @@
 
   <tr>  <td>
 
-      <link<a href="index.htm" title="Home">⌂</a>  
+      <a href="index.html" title="Home">⌂</a>
 
       <a>Výzkum a ekonomika</a> » 
         <%= link_to "Ekonomický výzkum", technologies_path %>
@@ -28,7 +28,7 @@
 
   
 
-  <table class="vyzkum" style="background-image: url(image/8/mes.png")>
+  <table class="vyzkum">
 
   
 
@@ -55,13 +55,14 @@
         vyzkoumane mesto:   /mes_1.png
 
 
-      
+
       !!!!! -->
-      <% if !@technologies.blank? %>
-<%= render :partial => "technology", :collection => @technologies, :as => :technology%>
-      <% else %>
-              Halooooo
-            <% end %>
+       <div id="tech">
+      <% unless @technologies.blank? %>
+          <%= render :partial => "technology", :collection => @technologies, :as => :technology %>
+      <% end %>
+       </div>
+
 
       
     

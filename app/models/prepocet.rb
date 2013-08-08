@@ -20,7 +20,7 @@ class Prepocet
       if Imperium.konec_volby_imperatora == Date.today
         Prepocet.zvol_imperatora
       end
-      
+
       Prepocet.prepocti_vliv
       
       Prepocet.odemkni
@@ -47,7 +47,6 @@ class Prepocet
     return order
   end
 
-
   def self.produkce_suroviny(order)
     for field in Field.includes(:user, :buildings, :resource).all do
       vlastnik = field.user
@@ -55,14 +54,11 @@ class Prepocet
         
       else
         solar_exp = vlastnik.vyskumane_tech(2)
-        solar = field.vynos('solar')
-        solar = solar * ((solar_exp * 0.02) + 1)
+        solar = field.vynos('solar') * ((solar_exp * 0.02) + 1)
         exp_exp = vlastnik.vyskumane_tech(4)
-        exp = field.vynos('exp')
-        exp = exp * ((exp_exp * 0.02) + 1)
+        exp = field.vynos('exp') * ((exp_exp * 0.02) + 1)
         material_exp = vlastnik.vyskumane_tech(3)
-        material = field.vynos('material')
-        material = material * ((material_exp * 0.02) + 1)
+        material = field.vynos('material') * ((material_exp * 0.02) + 1)
         population = field.vynos('population')
 
         vlastnik.update_attributes(
@@ -91,14 +87,12 @@ class Prepocet
   
   def self.produkce_melanz(order)
     puts "PRODUKUJI MELANZ"
+    tech = vlastnik.vyskumane_tech(5)
     arrakis = Planet.arrakis
     leno = Field.find_by_planet_id(arrakis)
     vlastnik = User.spravce_arrakis
-
     if vlastnik
-      tech = vlastnik.vyskumane_tech(5)
-      melange = leno.vynos('melange')
-      melange = melange * ((tech * 0.02) + 1)
+      melange = leno.vynos('melange') * ((tech * 0.02) + 1)
     else
       melange = 0.0
     end
